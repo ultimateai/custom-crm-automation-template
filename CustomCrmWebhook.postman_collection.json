@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "bc0a9ccd-8cea-47a5-8821-9598d7e5ab45",
+		"name": "CustomCrmWebhook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16868440"
+	},
+	"item": [
+		{
+			"name": "converse webhook",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"botId\": \"asdasd\",\n    \"channel\": \"chat\",\n    \"data\": {\n        \"platformConversationId\": \"12345\",\n        \"eventType\": \"widgetMessage\",\n        \"text\": \"theWidgetTeam\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3007/converse-webhook",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"converse-webhook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "action webhook",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"botId\": \"asdasd\",\n    \"platformConversationId\": \"12345\",\n    \"name\": \"updateUserBalanace\",\n    \"data\": [\n        {\n            \"key\": \"userId\",\n            \"value\": [\"aaaaaa123\"],\n            \"sanitize\": true\n        },\n        {\n            \"key\": \"balance\",\n            \"value\": [\"1234.56\"]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3007/action-webhook",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"action-webhook"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

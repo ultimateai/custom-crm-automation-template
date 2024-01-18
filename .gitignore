@@ -1,0 +1,10 @@
+.env
+.idea
+
+dist
+node_modules
+
+.nyc_output/
+
+.vscode/
+id_rsa

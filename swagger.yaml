@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  title: Custom CRM Automation Template
+  description: Custom CRM Automation Template Repo TS REST API.
+  version: 1.0.0
+paths:
+  /converse-webhook:
+    post:
+      summary: Receive bot converse webhook events
+      tags:
+        - Ultimate Chat API Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConverseWebhookRequestBody'
+      responses:
+        '200':
+          description: 'OK'
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+  /action-webhook:
+    post:
+      summary: Receive bot action webhook events
+      tags:
+        - Ultimate Chat API Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionWebhookRequestBody'
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  catId:
+                    $ref: '#/components/schemas/ActionWebhookResponseBody'
+        '400':
+          description: Incorrect Request
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    ConverseWebhookRequestBody:
+      required:
+        - botId
+        - channel
+        - data
+      type: object
+      properties:
+        botId:
+          type: string
+          description: "The ID that represents the bot."
+        channel:
+          type: string
+          description: "Always with constant value 'chat'"
+        data:
+          required:
+            - platformConversationId
+            - eventType
+          type: object
+          properties:
+            platformConversationId:
+              type: string
+              description: "The ID that represents the conversation."
+            eventType:
+              $ref: '#/components/schemas/eventType'
+            replyId:
+              type: string
+              description: "Only when 'eventType' is 'sendMessage'. Internal Ultimate replyId if the message comes from a reply defined Ultimate's dashboard."
+            type:
+              $ref: '#/components/schemas/messageType'
+              description: "Only when 'eventType' is 'sendMessage'. Internal Ultimate replyId if the message comes from a reply defined Ultimate's dashboard."
+            buttons:
+              type: array
+              items:
+                required:
+                  - text
+                  - type
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: "Text to display in the button"
+                  type:
+                    $ref: '#/components/schemas/buttonType'
+                    description: "The type of the button. The value is either 'button' or 'link'."
+            confidence:
+              type: number
+              description: "Only when 'eventType' is 'sendMessage'. The confidence of the bot reply. The value is between 0 and 1."
+            text:
+              type: string
+              description: "Only when 'eventType' is 'sendMessage' or 'widgetMessage'. The text of the bot reply (in case of 'sendMessage' or the visitor in an escalated widget conversation when 'widgetMessage')."
+            carouselCards:
+              type: array
+              description: "Only when 'eventType' is 'sendMessage'. A carousel with its cards."
+              items:
+                required:
+                  - title
+                  - buttons
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: "Title of card"
+                  description:
+                    type: string
+                    description: "Description of the card"
+                  imageUrl:
+                    type: string
+                    description: "Image URL of the card"
+                  buttons:
+                    type: array
+                    items:
+                      required:
+                        - text
+                        - type
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        type:
+                          $ref: '#/components/schemas/buttonType'
+            messageId:
+              type: string
+              description: "Only when 'eventType' is 'sendMessage'. Ultimate's internal message ID."
+            escalateTo:
+              type: string
+              description: "Only when 'eventType' is 'escalate' or 'widgetEscalate'. Optional. Sent if an escalateTo target is defined in Ultimate's dashboard."
+            teamId:
+              type: string
+              description: "Only when 'eventType' is 'isTeamOnline'. Optional. Sent if a teamId target is defined in Ultimate's dashboard."
+    ActionWebhookRequestBody:
+      required:
+        - botId
+        - channel
+        - name
+      type: object
+      properties:
+        platformConversationId:
+          type: string
+          description: "The ID that represents the conversation."
+        botId:
+          type: string
+          description: "The ID that represents the bot."
+        name:
+          type: string
+          description: "Name of the action"
+        data:
+          type: array
+          description: "List of parameters for the action in the form of key-value pairs"
+          items:
+            required:
+              - key
+              - value
+            type: object
+            properties:
+              key:
+                type: string
+                description: "Key of the parameter"
+              value:
+                type: array
+                description: "List of with a single value for the parameter key"
+                items:
+                  type: string
+              saveAs:
+                type: string
+                description: "Optional, to save the variable in the session with different name"
+    ActionWebhookResponseBody:
+      type: object
+      properties:
+        results:
+          type: array
+          description: "Array with variables values to be stored in Ultimate session so they can be used in dialogs or actions."
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: "Key of the variable to store"
+              value:
+                type: string
+                description: "Value of the variable to store"
+              sanitize:
+                type: boolean
+                description: "Optional, to sanitize the value before storing it"
+    eventType:
+      type: string
+      enum: ['sendMessage', 'escalate', 'isTeamOnline', 'widgetMessage', 'widgetEscalate', 'widgetEndSession']
+    messageType:
+      type: string
+      enum: [ 'text', 'carousel' ]
+    buttonType:
+      type: string
+      enum: [ 'button', 'link' ]

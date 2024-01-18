@@ -1,0 +1,102 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "prettier"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "tsconfig.json",
+        "sourceType": "module",
+        "ecmaVersion": 2021
+    },
+    "settings": {
+      "import/parsers": {
+        "@typescript-eslint/parser": ["*.ts", "*.tsx"]
+      }
+    },
+    "plugins": ["@typescript-eslint", "@typescript-eslint/tslint", "prettier", "unused-imports" ],
+    "rules": {
+        "prettier/prettier": ["error"],
+        "@typescript-eslint/explicit-member-accessibility": [
+            "off",
+            {
+                "accessibility": "explicit"
+            }
+        ],
+        "@typescript-eslint/interface-name-prefix": "off",
+        "@typescript-eslint/member-delimiter-style": [
+            "error",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": false
+                }
+            }
+        ],
+        "@typescript-eslint/member-ordering": "error",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-require-imports": "off",
+        "@typescript-eslint/no-shadow": [
+            "warn",
+            {
+                "hoist": "all"
+            }
+        ],
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/semi": ["error", "always"],
+        "@typescript-eslint/type-annotation-spacing": "off",
+        "@typescript-eslint/no-floating-promises": "error",
+        "curly": "error",
+        "default-case": "error",
+        "dot-notation": "off",
+        "eol-last": "error",
+        "eqeqeq": ["error", "smart"],
+        "guard-for-in": "error",
+        "id-blacklist": "error",
+        "id-match": "error",
+        "max-len": ["error", 180, 4],
+        "no-bitwise": "off",
+        "no-caller": "error",
+        "no-cond-assign": "off",
+        "no-console": "warn",
+        "no-debugger": "error",
+        "no-empty": "off",
+        "no-eval": "error",
+        "no-fallthrough": "error",
+        "no-invalid-this": "off",
+        "no-multiple-empty-lines": "error",
+        "no-new-wrappers": "error",
+        "no-redeclare": "error",
+        "no-underscore-dangle": "off",
+        "no-unused-expressions": "error",
+        "no-unused-labels": "error",
+        "no-var": "error",
+        "radix": "error",
+        "spaced-comment": "error",
+        "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+            "warn",
+            { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+        ],
+        "@typescript-eslint/tslint/config": [
+            "error",
+            {
+                "rules": {
+                    "jsdoc-format": true,
+                    "typedef": [true, "call-signature"]
+                }
+            }
+        ]
+    }
+  }
